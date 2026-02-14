@@ -3,58 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinalRest | Developer Profile</title>
+    <title>FinalRest | Final Player</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <canvas id="bg-animation"></canvas>
+    <canvas id="bg-canvas"></canvas>
 
-    <div class="container">
-        <header class="profile-header">
-            <h1 class="glitch" data-text="FinalRest">FinalRest</h1>
-            <p class="subtitle">Ingeniería de Software & Desarrollo Móvil</p>
-            <div class="divider-equalizer">
-                <span></span><span></span><span></span><span></span><span></span>
+    <div class="main-wrapper">
+        
+        <header class="profile-header glass-panel">
+            <div class="header-content">
+                <h1 class="brand-name">FinalRest</h1>
+                <p class="role-tag">iOS & Android Developer</p>
+            </div>
+            <div class="audio-viz">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </header>
 
-        <main class="project-showcase">
-            <div class="glass-card">
-                <div class="content-text">
-                    <h2 class="app-title">Final Player</h2>
-                    <span class="badge">Music App</span>
-                    <p class="description">
-                        Una experiencia auditiva redefinida. Final Player es un reproductor de música de alto rendimiento diseñado con una arquitectura robusta. Ofrece gestión inteligente de bibliotecas, ecualización avanzada y una interfaz minimalista optimizada para audiófilos.
-                    </p>
-                    <ul class="features">
-                        <li>Soporte de Audio Hi-Res</li>
-                        <li>Interfaz "Dark Matte"</li>
-                        <li>Gestión eficiente de recursos</li>
-                    </ul>
-                    <button class="btn-action">Ver Detalles</button>
+        <main class="app-showcase">
+            
+            <section class="info-column">
+                <div class="hero-text">
+                    <h2 class="app-name">Final Player</h2>
+                    <p class="app-slogan">Redefiniendo la experiencia de audio local.</p>
+                    <div class="badges">
+                        <span class="badge">Hi-Res Audio</span>
+                        <span class="badge">10-Band EQ</span>
+                        <span class="badge">Lyrics</span>
+                    </div>
                 </div>
 
-                <div class="slider-container">
+                <div class="features-grid">
+                    <div class="feature-card glass-panel">
+                        <h3>🎛️ Motor de Audio Pro</h3>
+                        <ul>
+                            <li>Ecualizador de 10 Bandas + Preamp</li>
+                            <li>Crossfade Configurable</li>
+                            <li>Soporte FLAC/MP3 Local</li>
+                            <li>Presets: Rock, Pop, Bass (Unlockable)</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card glass-panel">
+                        <h3>🎨 Visual & Themes</h3>
+                        <ul>
+                            <li>Estilo Glass / iPhone</li>
+                            <li>Visualizadores: Wave, Particles</li>
+                            <li>Modo RGB y Fondos Animados</li>
+                            <li>Temas: Neon, Fire, Ice</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card glass-panel">
+                        <h3>🛠️ Power Tools</h3>
+                        <ul>
+                            <li>Editor de Metadatos y Letras</li>
+                            <li>Diagnóstico de archivos huérfanos</li>
+                            <li>Soporte para 22 Idiomas</li>
+                            <li>Temporizador de apagado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="monetization glass-panel">
+                    <p><strong>Modelo Flexible:</strong> Disfruta gratis con anuncios, desbloquea funciones premium viendo videos recompensados, o adquiere la versión Pro con un pago único.</p>
+                </div>
+
+                <div class="cta-container">
+                    <button class="btn-download">Descargar App</button>
+                    <button class="btn-outline">Ver Changelog</button>
+                </div>
+            </section>
+
+            <section class="visual-column">
+                <div class="phone-mockup glass-panel">
+                    <div class="notch"></div>
                     <div class="slider-wrapper">
                         <div class="slide active">
-                            <img src="https://placehold.co/300x550/111/00d4ff?text=Pantalla+Inicio" alt="Captura 1">
+                            <img src="https://placehold.co/320x690/000000/00d4ff?text=Player+UI" alt="Player Interface">
+                            <div class="caption">Interfaz Glass Minimalista</div>
                         </div>
                         <div class="slide">
-                            <img src="https://placehold.co/300x550/111/ae00ff?text=Reproductor" alt="Captura 2">
+                            <img src="https://placehold.co/320x690/000000/ae00ff?text=10-Band+EQ" alt="Equalizer">
+                            <div class="caption">Ecualizador de 10 Bandas</div>
                         </div>
                         <div class="slide">
-                            <img src="https://placehold.co/300x550/111/00d4ff?text=Ecualizador" alt="Captura 3">
+                            <img src="https://placehold.co/320x690/000000/ff0055?text=Lyrics+View" alt="Lyrics">
+                            <div class="caption">Letras en Tiempo Real</div>
                         </div>
                     </div>
-                    
-                    <button class="slider-btn prev">&#10094;</button>
-                    <button class="slider-btn next">&#10095;</button>
-                    <div class="dots-container"></div>
+                    <div class="slider-controls">
+                        <button class="prev-btn">❮</button>
+                        <button class="next-btn">❯</button>
+                    </div>
                 </div>
-            </div>
+            </section>
+
         </main>
+        
+        <footer class="glass-panel">
+            <p>&copy; 2026 FinalRest Development. Todos los derechos reservados.</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
