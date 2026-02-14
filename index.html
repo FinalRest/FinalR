@@ -1,114 +1,409 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinalRest | Final Player</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-cyan: #00f2ff;
+            --accent-purple: #bd00ff;
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            /* Más visible */
+            --glass-border: rgba(255, 255, 255, 0.2);
+            /* Borde más fuerte */
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Fondo Animado --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Header --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1.brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- Layout Principal --- */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            /* Texto izquierda, Móvil derecha */
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* Columna de Texto */
+        .app-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .app-desc {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        /* Grid de Características (Bento Box) */
+        .features-bento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .glass-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .glass-card ul {
+            list-style: none;
+        }
+
+        .glass-card li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #ddd;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .glass-card li::before {
+            content: "•";
+            color: var(--accent-purple);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Botones */
+        .action-area {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: #000;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px var(--accent-cyan);
+            transform: scale(1.05);
+        }
+
+        /* --- Mockup del Teléfono (Derecha) --- */
+        .phone-container {
+            position: relative;
+            width: 320px;
+            height: 650px;
+            margin: 0 auto;
+            border: 4px solid #333;
+            border-radius: 40px;
+            background: #000;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        /* Notch simulado */
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #222;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+
+        /* Slider */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .phone-container {
+                margin-top: 50px;
+            }
+
+            h1.brand {
+                font-size: 3rem;
+            }
+
+            .app-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
     <canvas id="bg-canvas"></canvas>
 
-    <div class="main-wrapper">
-        
-        <header class="profile-header glass-panel">
-            <div class="header-content">
-                <h1 class="brand-name">FinalRest</h1>
-                <p class="role-tag">iOS & Android Developer</p>
-            </div>
-            <div class="audio-viz">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-            </div>
+    <div class="container">
+        <header>
+            <h1 class="brand">FINALREST</h1>
+            <p class="subtitle">Android Developer</p>
         </header>
 
-        <main class="app-showcase">
-            
-            <section class="info-column">
-                <div class="hero-text">
-                    <h2 class="app-name">Final Player</h2>
-                    <p class="app-slogan">Redefiniendo la experiencia de audio local.</p>
-                    <div class="badges">
-                        <span class="badge">Hi-Res Audio</span>
-                        <span class="badge">10-Band EQ</span>
-                        <span class="badge">Lyrics</span>
-                    </div>
+        <main class="showcase-grid">
+            <div class="info-section">
+                <h2 class="app-title">Final Player</h2>
+                <p class="app-desc">La experiencia definitiva de audio local. Diseño Glassmorphism, Audio Hi-Res y
+                    control total sobre tu música.</p>
+
+                <div class="action-area">
+                    <button class="btn-primary">Descargar App</button>
                 </div>
 
-                <div class="features-grid">
-                    <div class="feature-card glass-panel">
-                        <h3>🎛️ Motor de Audio Pro</h3>
+                <div class="features-bento">
+
+                    <div class="glass-card">
+                        <h3>🎵 Audio Pro</h3>
                         <ul>
-                            <li>Ecualizador de 10 Bandas + Preamp</li>
-                            <li>Crossfade Configurable</li>
-                            <li>Soporte FLAC/MP3 Local</li>
-                            <li>Presets: Rock, Pop, Bass (Unlockable)</li>
+                            <li>Ecualizador de 15 Bandas</li>
+                            <li>Soporte Hi-Res & FLAC</li>
+                            <li>Crossfade Inteligente</li>
+                            <li>Presets: Rock, Pop, Bass</li>
                         </ul>
                     </div>
 
-                    <div class="feature-card glass-panel">
-                        <h3>🎨 Visual & Themes</h3>
+                    <div class="glass-card">
+                        <h3>🎨 Visual</h3>
                         <ul>
-                            <li>Estilo Glass / iPhone</li>
+                            <li>Diseño Glassmorphism</li>
                             <li>Visualizadores: Wave, Particles</li>
-                            <li>Modo RGB y Fondos Animados</li>
+                            <li>Fondos Animados & RGB</li>
                             <li>Temas: Neon, Fire, Ice</li>
                         </ul>
                     </div>
 
-                    <div class="feature-card glass-panel">
-                        <h3>🛠️ Power Tools</h3>
+                    <div class="glass-card">
+                        <h3>🛠️ Tools</h3>
                         <ul>
-                            <li>Editor de Metadatos y Letras</li>
-                            <li>Diagnóstico de archivos huérfanos</li>
-                            <li>Soporte para 22 Idiomas</li>
-                            <li>Temporizador de apagado</li>
+                            <li>Editor de Letras y Metadatos</li>
+                            <li>Multi-idioma (22 lenguajes)</li>
+                            <li>Limpiador de archivos</li>
+                            <li>Temporizador de sueño</li>
                         </ul>
                     </div>
-                </div>
 
-                <div class="monetization glass-panel">
-                    <p><strong>Modelo Flexible:</strong> Disfruta gratis con anuncios, desbloquea funciones premium viendo videos recompensados, o adquiere la versión Pro con un pago único.</p>
-                </div>
-
-                <div class="cta-container">
-                    <button class="btn-download">Descargar App</button>
-                    <button class="btn-outline">Ver Changelog</button>
-                </div>
-            </section>
-
-            <section class="visual-column">
-                <div class="phone-mockup glass-panel">
-                    <div class="notch"></div>
-                    <div class="slider-wrapper">
-                        <div class="slide active">
-                            <img src="https://placehold.co/320x690/000000/00d4ff?text=Player+UI" alt="Player Interface">
-                            <div class="caption">Interfaz Glass Minimalista</div>
-                        </div>
-                        <div class="slide">
-                            <img src="https://placehold.co/320x690/000000/ae00ff?text=10-Band+EQ" alt="Equalizer">
-                            <div class="caption">Ecualizador de 10 Bandas</div>
-                        </div>
-                        <div class="slide">
-                            <img src="https://placehold.co/320x690/000000/ff0055?text=Lyrics+View" alt="Lyrics">
-                            <div class="caption">Letras en Tiempo Real</div>
-                        </div>
-                    </div>
-                    <div class="slider-controls">
-                        <button class="prev-btn">❮</button>
-                        <button class="next-btn">❯</button>
+                    <div class="glass-card" style="grid-column: 1 / -1;">
+                        <h3>💎 Monetización Flexible</h3>
+                        <p style="font-size: 0.9rem; color: #ccc;">Usa la app gratis con anuncios, desbloquea funciones
+                            premium viendo videos recompensados o haz un pago único para la versión Pro.</p>
                     </div>
                 </div>
-            </section>
+            </div>
 
-        </main>
-        
-        <footer class="glass-panel">
-            <p>&copy; 2026 FinalRest Development. Todos los derechos reservados.</p>
-        </footer>
+            <div class="phone-container">
+                <div class="notch"></div>
+
+                <div class="slide active">
+                    <img src="C:\Users\oscar\Downloads\UI.jpg" alt="Player">
+                    <div class="slide-caption">Interfaz Moderna Glass</div>
+                </div>
+                <div class="slide">
+                    <img src="C:\Users\oscar\Downloads\EQ.jpg" alt="EQ">
+                    <div class="slide-caption">Ecualizador 10 Bandas</div>
+                </div>
+
+            </div>
     </div>
+    </main>
 
-    <script src="script.js"></script>
+    <script>
+        // --- 1. Animación de Fondo (Nebulosa) ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const colors = ['#00f2ff', '#bd00ff', '#0051ff'];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 100 + 50; // Grandes y difusas
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < -100 || this.x > canvas.width + 100) this.vx *= -1;
+                if (this.y < -100 || this.y > canvas.height + 100) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                // Gradiente para efecto nebulosa suave
+                const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                g.addColorStop(0, this.color + '44'); // Color con transparencia (44 hex)
+                g.addColorStop(1, 'transparent');
+                ctx.fillStyle = g;
+                ctx.globalCompositeOperation = 'screen'; // Mezcla de luces
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalCompositeOperation = 'source-over';
+            }
+        }
+
+        for (let i = 0; i < 15; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.fillStyle = '#050505'; // Fondo base negro
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // --- 2. Slider Automático ---
+        const slides = document.querySelectorAll('.slide');
+        let current = 0;
+
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 3500); // Cambia cada 3.5 segundos
+
+    </script>
 </body>
+
 </html>
