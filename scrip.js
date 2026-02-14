@@ -1,132 +1,132 @@
-/* --- Animación de Fondo (Canvas Particles) --- */
-const canvas = document.getElementById('bg-animation');
+/* --- Animación de Fondo: Orbes Flotantes (Aurora Effect) --- */
+const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 
-let particlesArray;
+let orbs = [];
+const numOrbs = 15; // Número de luces
 
-// Ajustar canvas al tamaño de ventana
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// Configuración de colores (Cyan, Purple, Deep Blue)
+const colors = [
+    'rgba(0, 212, 255, 0.4)', // Cyan
+    'rgba(174, 0, 255, 0.4)', // Violeta
+    'rgba(10, 132, 255, 0.3)', // Azul iOS
+    'rgba(255, 0, 85, 0.2)'   // Un toque sutil de rojo/rosa
+];
 
-class Particle {
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Orb {
     constructor() {
+        this.reset();
+    }
+
+    reset() {
+        this.radius = Math.random() * 150 + 100; // Orbes grandes
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2;
-        this.speedX = (Math.random() * 1.5) - 0.75;
-        this.speedY = (Math.random() * 1.5) - 0.75;
-        this.color = Math.random() > 0.5 ? '#00d4ff' : '#ae00ff'; // Cyan o Violeta
+        this.vx = (Math.random() - 0.5) * 0.5; // Velocidad muy lenta
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.blur = Math.random() * 20 + 10;
     }
 
     update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x += this.vx;
+        this.y += this.vy;
 
-        // Rebote en bordes
-        if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
-        if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+        // Rebote suave
+        if (this.x < -100 || this.x > canvas.width + 100) this.vx *= -1;
+        if (this.y < -100 || this.y > canvas.height + 100) this.vy *= -1;
     }
 
     draw() {
-        ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        // Crear gradiente radial para suavidad
+        let g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+        g.addColorStop(0, this.color);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        
+        ctx.fillStyle = g;
+        // Global Composite Operation para mezclar colores bonito
+        ctx.globalCompositeOperation = 'screen'; 
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
+        ctx.globalCompositeOperation = 'source-over'; // Reset
     }
 }
 
-function initParticles() {
-    particlesArray = [];
-    let numberOfParticles = (canvas.height * canvas.width) / 15000; // Densidad
-    for (let i = 0; i < numberOfParticles; i++) {
-        particlesArray.push(new Particle());
+function initAnimation() {
+    orbs = [];
+    for (let i = 0; i < numOrbs; i++) {
+        orbs.push(new Orb());
     }
 }
 
-function animateParticles() {
+function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Dibujar fondo semi-transparente para rastro (opcional, aquí desactivado para limpieza)
-    // ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
-    // ctx.fillRect(0,0, canvas.width, canvas.height);
+    // Fondo negro base
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].update();
-        particlesArray[i].draw();
+    orbs.forEach(orb => {
+        orb.update();
+        orb.draw();
+    });
 
-        // Conectar partículas cercanas (Efecto Red)
-        for (let j = i; j < particlesArray.length; j++) {
-            const dx = particlesArray[i].x - particlesArray[j].x;
-            const dy = particlesArray[i].y - particlesArray[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < 100) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(100, 100, 100, ${1 - distance/100})`;
-                ctx.lineWidth = 0.5;
-                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                ctx.stroke();
-            }
-        }
-    }
-    requestAnimationFrame(animateParticles);
+    requestAnimationFrame(animate);
 }
 
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    initParticles();
-});
+initAnimation();
+animate();
 
-initParticles();
-animateParticles();
-
-
-/* --- Lógica del Slider --- */
+/* --- Slider del Teléfono --- */
 const slides = document.querySelectorAll('.slide');
-const nextBtn = document.querySelector('.next');
-const prevBtn = document.querySelector('.prev');
+const nextBtn = document.querySelector('.next-btn');
+const prevBtn = document.querySelector('.prev-btn');
 let currentSlide = 0;
 let slideInterval;
 
-function showSlide(index) {
-    slides.forEach((slide, i) => {
+function updateSlides() {
+    slides.forEach((slide, index) => {
         slide.classList.remove('active');
-        if (i === index) slide.classList.add('active');
+        if (index === currentSlide) {
+            slide.classList.add('active');
+        }
     });
 }
 
 function nextSlide() {
     currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
+    updateSlides();
 }
 
 function prevSlide() {
     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    showSlide(currentSlide);
+    updateSlides();
 }
 
-// Event Listeners
+// Botones Manuales
 nextBtn.addEventListener('click', () => {
     nextSlide();
-    resetInterval();
+    resetTimer();
 });
-
 prevBtn.addEventListener('click', () => {
     prevSlide();
-    resetInterval();
+    resetTimer();
 });
 
-// Auto-play
-function startInterval() {
-    slideInterval = setInterval(nextSlide, 4000); // Cambia cada 4 segundos
+// Auto Play
+function startTimer() {
+    slideInterval = setInterval(nextSlide, 5000);
 }
-
-function resetInterval() {
+function resetTimer() {
     clearInterval(slideInterval);
-    startInterval();
+    startTimer();
 }
 
-// Iniciar
-startInterval();
+startTimer();
